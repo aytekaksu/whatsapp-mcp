@@ -18,6 +18,13 @@ Keep the bridge running while using either client. The optional macOS
 The bridge's session, message databases, media, and API token stay under
 `whatsapp-bridge/store/`; never commit that directory.
 
+If the terminal QR code is hard to scan on macOS, stop the bridge and run
+`python3 pair-whatsapp.py` from this checkout. The helper starts its own bridge,
+opens each fresh QR in Preview, and leaves the bridge running after pairing.
+It refuses to replace a bridge already listening on `WHATSAPP_BRIDGE_PORT`.
+Private QR images and logs are written under
+`~/Library/Logs/whatsapp-mcp/`. Do not publish them.
+
 ## Configure OpenCode
 
 Add the server to the `mcp.servers` object in the OpenCode configuration for
