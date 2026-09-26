@@ -82,6 +82,8 @@ A Model Context Protocol (MCP) server for WhatsApp, enabling Claude to read and 
 
 4. **Restart Claude Desktop**
 
+For OpenCode and Codex, see [OpenCode and Codex setup](OPENCODE-SETUP.md).
+
 ### Updating
 
 Pull the latest changes, then refresh whichever components moved:
