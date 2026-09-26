@@ -999,7 +999,7 @@ are documented in [docs/RELEASING.md](docs/RELEASING.md).
   release and rebuild the bridge. WhatsApp periodically raises the minimum
   supported linked-device client version, which can make older whatsmeow builds
   fail before pairing completes.
-- **QR Code Not Displaying**: Restart the bridge. Check terminal QR code support.
+- **QR Code Not Displaying**: Restart the bridge. On macOS, stop the bridge and run `python3 pair-whatsapp.py` to open fresh QR images in Preview. Check terminal QR code support on other systems.
 - **Phone says "check your connection" after scanning**: WhatsApp answers a scan
   with a `companion_reg_refresh` notification, whatsmeow rotates the pairing
   secret, and the bridge prints a **new** QR code marked `QR code refreshed`.
