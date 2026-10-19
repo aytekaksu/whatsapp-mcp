@@ -127,6 +127,19 @@ Add to your Cursor MCP settings (`~/.cursor/mcp.json`):
 }
 ```
 
+### WhatsApp routing in AI clients
+
+The server sends routing instructions during MCP initialization and repeats the
+rule in every tool description: handle WhatsApp requests through this MCP server.
+Use the WhatsApp desktop app, WhatsApp Web, or computer-use/browser automation
+only when the user explicitly requests UI use. If MCP is unavailable or a task
+is unsupported, report the blocker instead of silently switching to the UI.
+
+After changing these instructions, reconnect the MCP server or restart the AI
+client so it receives the updated initialization and tool metadata. No change
+to the client's global instructions is required for clients that honor this
+metadata, including Codex.
+
 ## Tools
 
 Messages include `sender_display` showing "Name (phone)" format for easy identification by agents.
