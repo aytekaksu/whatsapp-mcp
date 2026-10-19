@@ -61,9 +61,23 @@ from whatsapp import (
     send_reaction as whatsapp_send_reaction,
 )
 
-# Initialize FastMCP server. Env-var handling is deferred to the __main__ block
-# so importing this module never parses env vars or exits the process.
-mcp = FastMCP("whatsapp")
+# Keep the routing rule self-contained in the first 512 characters for Codex.
+# Env-var handling stays in __main__ so imports never parse env vars or exit.
+mcp = FastMCP(
+    "whatsapp",
+    instructions=(
+        "Always use this WhatsApp MCP server for WhatsApp requests. "
+        "Do not open or control the WhatsApp desktop app, WhatsApp Web, or computer-use/browser automation "
+        "unless the user explicitly requests UI use. "
+        "If MCP is unavailable or a task is unsupported, report the blocker and keep the MCP route; "
+        "do not silently fall back to the app or web UI.\n\n"
+        "Use search_contacts or list_chats to find people and groups, and list_messages to read or search messages. "
+        "Use send_message for text and replies, send_reaction for reactions, send_file or send_audio_message for "
+        "outbound media, and download_media for received attachments. Reading chats or messages does not mark "
+        "them read; use mark_messages_read only when requested. "
+        "Discover or reconnect this MCP server if its tools are missing instead of launching the WhatsApp UI."
+    ),
+)
 
 PreviewDimension = Annotated[
     int,
@@ -80,6 +94,9 @@ PreviewDimension = Annotated[
 def search_contacts(query: str) -> list[dict[str, Any]]:
     """Search WhatsApp contacts by name or phone number.
 
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
+
     Args:
         query: Search term to match against contact names or phone numbers
     """
@@ -94,6 +111,9 @@ def get_contact(
     phone: str | None = None,
 ) -> dict[str, Any]:
     """Look up a WhatsApp contact by phone number, LID, or full JID.
+
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
 
     Automatically detects the identifier type and queries appropriately.
 
@@ -194,6 +214,9 @@ def list_messages(
 ) -> list[dict[str, Any]]:
     """Get WhatsApp messages matching specified criteria with optional context.
 
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
+
     Each message includes sender_display showing "Name (phone)" for easy identification.
 
     Args:
@@ -237,6 +260,9 @@ def list_chats(
 ) -> list[dict[str, Any]]:
     """Get WhatsApp chats matching specified criteria.
 
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
+
     Args:
         query: Search term to filter chats by name or JID
         limit: Max chats to return (default 50, max 200)
@@ -263,6 +289,9 @@ def list_chats(
 def get_chat(chat_jid: str, include_last_message: bool = True) -> dict[str, Any]:
     """Get WhatsApp chat metadata by JID.
 
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
+
     Args:
         chat_jid: The JID of the chat to retrieve
         include_last_message: Whether to include the last message (default True)
@@ -278,6 +307,9 @@ def get_chat(chat_jid: str, include_last_message: bool = True) -> dict[str, Any]
 def get_direct_chat_by_contact(sender_phone_number: str) -> dict[str, Any]:
     """Get WhatsApp chat metadata by sender phone number.
 
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
+
     Args:
         sender_phone_number: The phone number to search for
     """
@@ -288,6 +320,9 @@ def get_direct_chat_by_contact(sender_phone_number: str) -> dict[str, Any]:
 @mcp.tool()
 def get_contact_chats(jid: str, limit: int = 20, page: int = 0) -> list[dict[str, Any]]:
     """Get all WhatsApp chats involving the contact.
+
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
 
     Args:
         jid: The contact's JID to search for
@@ -302,6 +337,9 @@ def get_contact_chats(jid: str, limit: int = 20, page: int = 0) -> list[dict[str
 def get_last_interaction(jid: str) -> dict[str, Any]:
     """Get most recent WhatsApp message involving the contact.
 
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
+
     Args:
         jid: The JID of the contact to search for
 
@@ -315,6 +353,9 @@ def get_last_interaction(jid: str) -> dict[str, Any]:
 @mcp.tool()
 def get_message_context(message_id: str, before: int = 5, after: int = 5) -> dict[str, Any]:
     """Get context around a specific WhatsApp message.
+
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
 
     Args:
         message_id: The ID of the message to get context for
@@ -339,6 +380,9 @@ def send_message(
     mentions: list[str] | None = None,
 ) -> dict[str, Any]:
     """Send a WhatsApp message to a person or group. For group chats use the JID.
+
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
 
     Args:
         recipient: The recipient - either a phone number with country code but no + or other symbols,
@@ -379,6 +423,9 @@ def send_reaction(
 ) -> dict[str, Any]:
     """Send (or remove) a reaction to a WhatsApp message.
 
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
+
     Args:
         recipient: The chat JID the message belongs to (e.g., "12025551234@s.whatsapp.net"
                    or a group JID like "123456789@g.us")
@@ -404,6 +451,9 @@ def mark_messages_read(
 ) -> dict[str, Any]:
     """Mark selected WhatsApp messages as read and send read receipts.
 
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
+
     This is an explicit external side effect. All message IDs must belong to the
     same chat and sender.
 
@@ -423,6 +473,9 @@ def mark_messages_read(
 @mcp.tool()
 def send_file(recipient: str, media_path: str, caption: str = "") -> dict[str, Any]:
     """Send a file (image, video, document) via WhatsApp, optionally with a caption.
+
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
 
     When `caption` is provided, the file and text arrive as a single
     attachment-with-caption message (one bubble in the WA UI), instead of
@@ -448,6 +501,9 @@ def send_file(recipient: str, media_path: str, caption: str = "") -> dict[str, A
 def send_audio_message(recipient: str, media_path: str) -> dict[str, Any]:
     """Send any audio file as a WhatsApp audio message to the specified recipient. For group messages use the JID. If it errors due to ffmpeg not being installed, use send_file instead.
 
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
+
     Args:
         recipient: The recipient - either a phone number with country code but no + or other symbols,
                  or a JID (e.g., "123456789@s.whatsapp.net" or a group JID like "123456789@g.us")
@@ -463,6 +519,9 @@ def send_audio_message(recipient: str, media_path: str) -> dict[str, Any]:
 @mcp.tool()
 def download_media(message_id: str, chat_jid: str) -> dict[str, Any]:
     """Download media from a WhatsApp message and get the local file path.
+
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
 
     Args:
         message_id: The ID of the message containing the media
@@ -486,6 +545,9 @@ def view_media(
     max_dimension: PreviewDimension = media_preview.DEFAULT_MAX_DIMENSION,
 ) -> Any:
     """View the media of a WhatsApp message as an image.
+
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
 
     download_media only returns a local file path, which a client without
     filesystem access cannot open. This returns the picture itself instead.
@@ -523,6 +585,9 @@ def view_media(
 @mcp.tool()
 def transcribe_audio(message_id: str, chat_jid: str, force: bool = False) -> dict[str, Any]:
     """Transcribe a WhatsApp voice note and return its text.
+
+    Use this WhatsApp MCP tool directly; do not use the desktop app or web UI
+    unless the user explicitly requests UI use.
 
     Runs whisper.cpp locally by default, or sends audio to the operator's
     configured OpenAI-compatible endpoint. The transcript is also written into
