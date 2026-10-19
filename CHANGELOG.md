@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0](https://github.com/aytekaksu/whatsapp-mcp/compare/v0.7.0...v1.0.0) (2026-10-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* The Python server requires cryptography 50.0.2+, whose upstream macOS support covers Apple Silicon only. Intel macOS users need a supported Linux environment. Require Go 1.26.9+ and use 1.27.2+ on the Go 1.27 line.
+
+### Features
+
+* add safe macOS QR pairing helper ([c5876e4](https://github.com/aytekaksu/whatsapp-mcp/commit/c5876e42143f8d73d6b7458e5831889a11524186))
+* add safe macOS QR pairing helper ([f6dc26a](https://github.com/aytekaksu/whatsapp-mcp/commit/f6dc26aaa3dc773b3b3b8b2d298a1d3a07804a17))
+
+
+### Bug Fixes
+
+* make OpenCode and Codex MCP startup portable ([8db6abf](https://github.com/aytekaksu/whatsapp-mcp/commit/8db6abfaf65019266e1fd9f4f65f90381c9b5e05))
+* make OpenCode and Codex MCP startup portable ([7afdb6f](https://github.com/aytekaksu/whatsapp-mcp/commit/7afdb6fe35bf4fc282a6ad507ed5739a67a47984))
+* route WhatsApp requests through MCP ([c04346e](https://github.com/aytekaksu/whatsapp-mcp/commit/c04346ea7591b9d73441f0594eafbf4f17bc7ee3))
+* route WhatsApp requests through MCP ([3f0dd97](https://github.com/aytekaksu/whatsapp-mcp/commit/3f0dd97cc27dd7833329dcfaace3eec83195d83e))
+* update vulnerable Python and Go dependencies ([03312bb](https://github.com/aytekaksu/whatsapp-mcp/commit/03312bbe8f64e1695ad3e06936d91ea5b7a90ad8))
+
 ## [0.7.0](https://github.com/verygoodplugins/whatsapp-mcp/compare/v0.6.0...v0.7.0) (2026-09-23)
 
 
