@@ -64,17 +64,20 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install pip-audit
-        run: pip install pip-audit
+      - uses: astral-sh/setup-uv@v7
 
-      - name: Install package dependencies
+      - name: Install audit and build tools
+        run: python -m pip install --upgrade pip pip-audit 'setuptools>=83.0.0'
+
+      - name: Install locked package dependencies
         run: |
           cd whatsapp-mcp-server
-          pip install -e .
+          uv export --locked --no-dev --no-emit-project --no-hashes --output-file ../requirements-audit.txt
+          python -m pip install -r ../requirements-audit.txt
+          python -m pip install --no-deps -e .
 
       - name: Audit dependencies
         run: pip-audit
-        continue-on-error: true
 
   bandit:
     name: Bandit Security Scan
@@ -110,4 +113,3 @@ jobs:
         run: |
           cd whatsapp-bridge
           govulncheck ./...
-        continue-on-error: true

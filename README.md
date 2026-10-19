@@ -32,11 +32,17 @@ A Model Context Protocol (MCP) server for WhatsApp, enabling Claude to read and 
 
 ### Prerequisites
 
-- Go 1.26+
+- Go 1.26.9+ (or 1.27.2+ on the 1.27 release line); use the latest security patch
 - Python 3.11+
 - [uv](https://docs.astral.sh/uv/) package manager
 - Claude Desktop or Cursor
 - FFmpeg (optional, for voice message conversion)
+
+The Python server requires cryptography 50.0.2 or newer. Its upstream macOS
+support covers Apple Silicon; Intel macOS is no longer supported by cryptography
+and has no prebuilt wheels. Intel Mac users can run the server in an x86-64 Linux
+environment. Do not downgrade cryptography to restore Intel macOS installation,
+since older releases have known security vulnerabilities.
 
 ### Quick Start
 

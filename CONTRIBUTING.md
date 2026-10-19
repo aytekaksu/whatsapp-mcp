@@ -6,7 +6,7 @@ Thanks for your interest in `verygoodplugins/whatsapp-mcp`. This fork is small a
 
 - **Open an issue first** for anything bigger than a clear bug fix.
 - **One concern per PR**, conventional-commit title, ≤ ~300 LOC where possible.
-- **Required CI checks green** (lint, tests, CodeQL, version consistency); `bandit`, `pip-audit`, and `govulncheck` run as informational security scans — investigate findings even though they don't currently fail the build.
+- **Required CI checks green** (lint, tests, CodeQL, version consistency, `pip-audit`, and `govulncheck`); `bandit` runs as an informational security scan — investigate findings even though they don't currently fail the build.
 - **Update docs** in the same PR as user-visible changes.
 
 ## Setup
