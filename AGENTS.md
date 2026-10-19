@@ -83,12 +83,12 @@ Every PR runs (see `.github/workflows/`). Not every job is blocking today:
 - `Go Build`
 - `Version Consistency` (Python pkg version vs `.release-please-manifest.json`)
 - `CodeQL Analysis (Python | Go)`
+- `Python Dependency Audit` (`pip-audit`, locked runtime plus audit/build tooling)
+- `Go Vulnerability Check` (`govulncheck`)
 
 **Informational — runs on every PR but won't fail the build today (`continue-on-error: true`):**
 
 - `Bandit Security Scan`
-- `Python Dependency Audit` (`pip-audit`)
-- `Go Vulnerability Check` (`govulncheck`)
 
 A failing blocking job is a hard block — fix it or explain in the PR why it's unrelated. For informational scans, investigate findings and either fix them or note in the PR why they're acceptable.
 
